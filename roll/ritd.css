@@ -1,0 +1,118 @@
+body, p, td, textarea {
+	background-color: #000000;
+	color: #FFFFFF;
+	font-family: "Segoe UI", "Trebuchet MS", Arial, sans-serif;
+	margin: 0px;
+}
+
+.hidden {
+	display: none;
+}
+
+.selected {
+	font-weight: bold;
+}
+
+.shipimg {
+	vertical-align: middle;
+}
+
+.shipselect {
+	border: 1px solid #FFFFFF;
+	cursor: pointer;
+	font-size: 14pt;
+	margin: 5px 0px 5px 0px;
+	padding: 5px;
+}
+
+.whstatus {
+	border: 2px solid #FFFFFF;
+	cursor: pointer;
+	padding: 10px;
+	text-align: center;
+}
+
+.wlabel {
+	color: #00CC00;
+	margin-left: 20px;
+}
+
+#direction {
+	font-size: 36pt;
+}
+
+#directive {
+	background-color: #660000;
+	border: 3px solid #FFFFFF;
+	cursor: pointer;
+	margin: 0px 10px 0px 10px;
+	padding: 10px 30px 10px 30px;
+	text-align: center;
+}
+
+#header {
+	background-color: #000000;
+	border-bottom: 1px solid #FFFFFF;
+	padding: 10px 0px 10px 0px;
+	position: absolute;
+	text-align: center;
+	width: 100%;
+	z-index: 10;
+}
+
+#k162warning {
+	color: #FF9999;
+	display: none;
+	margin-top: 5px;
+}
+
+#leadsto {
+	font-style: italic;
+}
+
+#log {
+	border: 2px solid #FFFFFF;
+	font-family: "Lucida Console", "Courier New", monospace;
+	margin-top: 10px;
+	padding: 5px;
+}
+
+#logcontainer, #masscontainer {
+	text-align: center;
+}
+
+#maxper {
+	font-style: italic;
+	color: #CCCCFF;
+}
+
+#maintitle {
+	color: #FFCCCC;
+	font-size: 14pt;
+	margin-right: 20px;
+}
+
+#shipcontainer {
+	vertical-align: top;
+}
+
+#temperature {
+	font-size: 24pt;
+}
+
+#totalmass {
+	font-style: italic;
+	color: #FFCCCC;
+}
+
+#whstatfull {
+	background-color: #009900;
+}
+
+#whstathalf {
+	background-color: #997700;
+}
+
+#whstatcrit {
+	background-color: #990000;
+}

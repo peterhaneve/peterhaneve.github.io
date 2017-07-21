@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Rolling in the Deep</title>
+<script type="text/javascript" language="JavaScript" src="ritd.js"></script>
+<link rel="stylesheet" href="ritd.css" type="text/css" />
+</head>
+<body onload="init()">
+<form name="ritd" onsubmit="return false" method="GET">
+<div id="header"><span id="maintitle">Rolling in the Deep</span> <label>Wormhole <select name="whtype" id="whtype" onchange="loadWH()"></select></label>
+<span class="wlabel">Leads to</span> <span id="leadsto">?</span>
+<span class="wlabel">Mass per jump</span> <span id="maxper" title="1 GG = 1 million (100 000 000) kg">? GG</span>
+<span class="wlabel">Total mass</span> <span id="totalmass" title="1 GG = 1 million (100 000 000) kg">? GG</span> &#x00B1;10%<div id="k162warning">
+Wormhole K162 is a generic exit. Jump through in a frigate and record the type shown on the other side.</div></div>
+<br/><br/>
+<table border="0" cellpadding="0" cellspacing="10" align="center"><tbody>
+<tr>
+<td colspan="3" id="masscontainer"><b>Mass left:</b> <span id="massmin" title="1 GG = 1 million (100 000 000) kg">0 GG</span> to <span id="massmax" title="1 GG = 1 million (100 000 000) kg">3000 GG</span></td></tr>
+<tr>
+<td>
+<div class="whstatus" id="whstatfull" title="This wormhole has not yet had its stability significantly disrupted by ships passing through it.">
+<label><input type="radio" name="whstatus" class="hidden" value="full" checked="checked" onclick="changeMass()"/> Full Mass</label></div></td>
+<td rowspan="3">
+<div id="directive" onclick="jump()">
+<div id="direction">&nbsp;</div>
+<div id="temperature">&nbsp;</div></div></td>
+<td rowspan="3" id="shipcontainer">
+<div class="shipselect" id="shipbs">
+<label><input type="radio" name="shiptype" value="bs" class="hidden" checked="checked" onclick="update()"/>
+<a target="_blank" href="https://o.smium.org/loadout/dna/641:11577;1:17938;1:5945;1:4871;2:5365;1:2048;1:1335;4:1405;3:34306;1:30013;8::"><img alt="Open fit in Osmium" class="shipimg" src="https://image.eveonline.com/Render/641_32.png" height="32" width="32"/></a> Megathron</label></div>
+<div class="shipselect" id="shipcruiser">
+<label><input type="radio" name="shiptype" value="cruiser" class="hidden" onclick="update()"/>
+<a target="_blank" href="https://o.smium.org/loadout/dna/621:11577;1:17938;1:35657;1:3841;1:5365;1:2553;1:6073;1:2048;1:1405;3:34268;1:30013;8::"><img alt="Open fit in Osmium" class="shipimg" src="https://image.eveonline.com/Render/621_32.png" height="32" width="32"/></a> Caracal</label></div></td></tr>
+<tr>
+<td>
+<div class="whstatus" id="whstathalf" title="This wormhole has had its stability reduced by ships passing through it, but not to a critical degree yet.">
+<label><input type="radio" name="whstatus" class="hidden" value="half" onclick="changeMass()"/> Half Mass</label></div></td></tr>
+<tr>
+<td>
+<div class="whstatus" id="whstatcrit" title="This wormhole has had its stability critically disrupted by the mass of numerous ships passing through and is on the verge of collapse.">
+<label><input type="radio" name="whstatus" class="hidden" value="crit" onclick="changeMass()"/> Critical Mass</label></div></td></tr>
+<tr>
+<td colspan="3" id="logcontainer"><textarea name="log" id="log" rows="16" cols="40" readonly="true"></textarea></td></tr></tbody></table>
+</form>
+</body>
+</html>
