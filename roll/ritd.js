@@ -123,26 +123,27 @@ function gg(value) {
 
 // Generates an event describing an initial mass update
 // level 0 is full, 1 is half, 2 is crit
-function initialMassEvent(whinfo, level) {
+function initialMassEvent(whinfo, level, baseMin, baseMax) {
 	var minMass = 0.0, maxMass = 0.0;
 	if (level === 2) {
 		// Lowest case: almost gone
 		minMass = 1.0;
 		// Highest case: +10% total mass at 10% of original mass
-		maxMass = whinfo.total * 0.11;
+		maxMass = baseMax * 0.1;
 	} else if (level === 1) {
 		// Lowest case: -10% total mass at 10% + 1 of original mass
-		minMass = whinfo.total * 0.09 + 1.0;
+		minMass = baseMin * 0.1 + 1.0;
 		// Highest case: +10% total mass at 50% of original mass
-		maxMass = whinfo.total * 0.55;
+		maxMass = baseMax * 0.5;
 	} else {
 		// Lowest case: -10% total mass at 50% + 1 of original mass
-		minMass = whinfo.total * 0.45 + 1.0;
-		// Highest case: +10% 
-		maxMass = whinfo.total * 1.1;
+		minMass = baseMin * 0.5 + 1.0;
+		// Highest case: +10%
+		maxMass = baseMax;
 	}
 	return { 'action': 'mass', 'minMass': minMass, 'maxMass': maxMass, 'level': level,
-		'hot': false, 'minMassRaw': minMass, 'maxMassRaw': maxMass };
+		'hot': false, 'minMassRaw': minMass, 'maxMassRaw': maxMass, 'baseMin': baseMin,
+		'baseMax': baseMax, 'removed': 0.0 };
 }
 
 // Calculates the next step to roll the hole closer
@@ -155,7 +156,8 @@ function calculate() {
 		var cold = shipinfo.cold, hot = shipinfo.hot, decision = 'STOP', temp = false, mass;
 		var item = logEvents[logLen - 1], minMass = item.minMass, maxMass = item.maxMass;
 		var dirField = byId('direction'), tempField = byId('temperature'), out = true;
-		var level = item.level, massRange = initialMassEvent(whinfo, level);
+		var baseMin = item.baseMin, baseMax = item.baseMax;
+		var level = item.level, massRange = initialMassEvent(whinfo, level, baseMin, baseMax);
 		// Find out the last direction by backwards iterating the log looking for 'out', 'in'
 		for (var i = logLen - 1; i >= 0; i--) {
 			var action = logEvents[i].action;
@@ -208,7 +210,8 @@ function calculate() {
 		if (decision === 'OUT' || decision === 'IN')
 			directive = { 'action': out ? 'out' : 'in', 'hot': temp ? true : false,
 				'mass': mass, 'minMass': minMassNew, 'maxMass': maxMassNew, 'level': level,
-				'minMassRaw': minMass, 'maxMassRaw': maxMass };
+				'minMassRaw': minMass, 'maxMassRaw': maxMass, 'baseMin': baseMin,
+				'baseMax': baseMax, 'removed': mass + item.removed };
 		else
 			directive = null;
 	} else
@@ -219,25 +222,29 @@ function changeMass() {
 	var mainForm = document.forms[0], code = mainForm.whtype.value;
 	var whinfo = whdata[code], logLen = logEvents.length, massLeft = mainForm.whstatus;
 	if (logLen > 0) {
-		var index = 0, newItem;
+		var index = 0, total = whinfo.total;
 		// Find selected checkbox
 		for (var i = 0; i < massLeft.length; i++)
 			if (massLeft[i].checked) {
 				index = i;
 				break;
 			}
-		newItem = initialMassEvent(whinfo, index);
 		if (logLen < 2)
 			// Hole started out with this mass, do not use the reshrink logic
-			logEvents = [ newItem ];
+			logEvents = [ initialMassEvent(whinfo, index, total * 0.9, total * 1.1) ];
 		else {
 			var item = logEvents[logLen - 1], minMass, maxMass;
+			// Create new event, using the base mass stats from the last event
+			var baseMin = item.baseMin, baseMax = item.baseMax;
+			var newItem = initialMassEvent(whinfo, index, baseMin, baseMax);
+			var newLevel = newItem.level, removed = item.removed;
 			// Add new event if the last event was not a mass event
 			if (item.action !== 'mass') {
 				logEvents.push(newItem);
 				logLen++;
 			}
 			// Look at the event before that one to find the mass range
+			newItem.removed = removed;
 			item = logEvents[logLen - 2];
 			minMass = item.minMassRaw;
 			maxMass = item.maxMassRaw;
@@ -246,6 +253,12 @@ function changeMass() {
 				newItem.minMass = minMass;
 			if (newItem.maxMass > maxMass)
 				newItem.maxMass = maxMass;
+			// If the mass changed, constrain initial masses by the transition point
+			//  Undersized holes can be eliminated by how long the hole lasted
+			//  Cannot really eliminate oversized holes due to potential mass bleed from others
+			if (newLevel > item.level)
+				newItem.baseMin = Math.min(baseMax, Math.max(baseMin, (removed - item.mass) *
+					2));
 			// Update array (apparently does it by value...)
 			logEvents[logLen - 1] = newItem;
 		}
@@ -310,6 +323,7 @@ function loadWH() {
 	var whinfo = whdata[code], error = true;
 	// Not an exit?
 	if (code != 'K162' && whinfo) {
+		var total = whinfo.total;
 		error = false;
 		// No escaping issues since content is known
 		byId('leadsto').innerHTML = whinfo.dest;
@@ -318,7 +332,7 @@ function loadWH() {
 		// Switch to full mass
 		mainForm.whstatus[0].checked = true;
 		// Clear the log
-		logEvents = [ initialMassEvent(whinfo, 0) ];
+		logEvents = [ initialMassEvent(whinfo, 0, total * 0.9, total * 1.1) ];
 	}
 	// Display error if K162 selected
 	byId('k162warning').style.display = error ? 'block' : 'none';
