@@ -21,8 +21,8 @@ However, hard coding the client ID and client secret in EVEMon's application cod
 
 ## Configuring EVEMon
 
-1. Open EVEMon. If old characters are left over from versions prior to 4.0.0, back up any important skill plans and **reset settings** (`File > Reset Settings`) ![Reset Settings] (img/resetsettings.png)
-2. Select `File > Add API Key`. If it is not already set up, you will be redirected to the `Network Settings` page ![Network Settings] (img/enterclientid.png)
+1. Open EVEMon. If old characters are left over from versions prior to 4.0.0, back up any important skill plans and **reset settings** (`File > Reset Settings`) ![Reset Settings](img/resetsettings.png)
+2. Select `File > Add API Key`. If it is not already set up, you will be redirected to the `Network Settings` page ![Network Settings](img/enterclientid.png)
 3. Enter the *Client ID* and *Client Secret* obtained in the previous section into the fields
 4. Select `OK`
 5. Select `File > Add API Key` again; follow the directions to add characters just like any other tool using ESI ![Add API key](img/addapi.png)
