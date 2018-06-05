@@ -13,7 +13,9 @@ However, hard coding the client ID and client secret in EVEMon's application cod
 3. Enter an application name and description, these can be anything (EVEMon will not see these) ![Application Name](img/appname.png)
 4. Select *Authentication & API Access* ![API Access Mode](img/apiaccess.png)
 5. Enter "esi" in the text box under *Available Scopes List* ![Enable Scopes](img/setscopes1.png)
-6. Click once on **all** of the items which appear in the text box to move them to the right ![Scopes Set](img/setscopes2.png)
+6. Click once on **all** of the items which appear in the text box to move them to the right ![Scopes Set](img/setscopes2.png).
+   
+   *Paranoid?* See the end of this document to manually select only the scopes that EVEMon actually uses.
 7. Enter `http://localhost:4916/callback` in the *Callback URL* field ![Set callback URL](img/callback.png)
 8. Select *Create Application*
 9. On the list that appears, select *View Application* on the newly created entry ![View Application](img/viewapp.png)
@@ -25,7 +27,9 @@ However, hard coding the client ID and client secret in EVEMon's application cod
 2. Select `File > Add API Key`. If it is not already set up, you will be redirected to the `Network Settings` page ![Network Settings](img/enterclientid.png)
 3. Enter the *Client ID* and *Client Secret* obtained in the previous section into the fields
 4. Select `OK`
-5. Select `File > Add API Key` again; follow the directions to add characters just like any other tool using ESI ![Add API key](img/addapi.png)
+5. Select `File > Add API Key` again; follow the directions
+   
+   to add characters just like any other tool using ESI ![Add API key](img/addapi.png)
 
 *For the paranoid, EVEMon actually requires the following scopes. Leaving out a scope may result in error messages if that particular section of EVEMon is used.*
 
