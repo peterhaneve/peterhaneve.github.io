@@ -3,9 +3,11 @@
 ----
 ## Why do I have to do this?
 
+*You do not!* As of version 4.0.9, EVEMon supports PKCE, and no developer registration is required. This page exists for the curious, users of older versions, or paranoid users who want their own client secret.
+
 ESI requires a client ID and client secret to function, which are theoretically unique for each application which use it. These items are used to retrieve tokens used to access your API information; a particular access token (the new version of an API key) is only usable with a given client ID and secret. Thus, these two items are intended to be kept secret for a given application.
 
-However, hard coding the client ID and client secret in EVEMon's application code is not recommended, as it would then be available for nefarious spies to potentially see your top-secret information. Therefore, EVEMon requires that each user create their own client ID and client secret, which makes it difficult for another user (or me) to spy on you even if they obtain your tokens. The client ID and client secret **can** be reused across multiple instances of EVEMon.
+However, hard coding the client ID and client secret in EVEMon's application code is not recommended, as it would then be available for nefarious spies to potentially see your top-secret information. Therefore, EVEMon requires that each user create their own client ID and client secret, which makes it difficult for another user (or me) to spy on you even if they obtain your tokens. The client ID and client secret **can** be reused across multiple accounts and multiple instances of EVEMon.
 
 ## Creating your client ID
 1. Go to [https://developers.eveonline.com/applications/create](https://developers.eveonline.com/applications/create)
